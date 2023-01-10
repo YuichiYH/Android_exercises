@@ -41,12 +41,11 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TipTimeScreen(){
 
-    var amountInput by remember{
+    var value by remember {
         mutableStateOf("0")
     }
 
-    val amount = amountInput.toDoubleOrNull() ?: 0.0
-    val tip = calculateTip(amount)
+    var amount = value.toDoubleOrNull() ?: 0.0
 
     Column(
         modifier = Modifier.padding(32.dp),
@@ -58,52 +57,40 @@ fun TipTimeScreen(){
             modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
         )
         Spacer(modifier = Modifier.height(16.dp))
-
-        EditNumberField(
-            value = amountInput,
+        TextField(
+            value = value,
             onValueChange = {
-                println("this happens")
-                amountInput = it
-            }
+                value = it
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            label = { stringResource(id = R.string.cost_of_service)},
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
         )
-
         Spacer(modifier = Modifier.height(24.dp))
         Text(
-            text = stringResource(R.string.tip_amount, tip),
+            text = stringResource(R.string.tip_amount, calculateTip(amount)),
             modifier = Modifier.align(Alignment.CenterHorizontally),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
+
     }
 }
 
-@Composable
-fun EditNumberField(
-    value: String,
-    onValueChange: (String) -> Unit
-){
-
-
-    TextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = { Text(text = stringResource(id = R.string.cost_of_service))},
-        modifier = Modifier.fillMaxWidth(),
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-    )
-}
-
-private fun calculateTip(amount: Double, tipPercent: Double = 15.0): String {
-    val tip = tipPercent/ 100 * amount
+private fun calculateTip(
+    value: Double,
+    percentage: Double = 15.0
+): String{
+    val tip = ( percentage / 100 ) * value
     return NumberFormat.getCurrencyInstance().format(tip)
-
 }
+
 
 @Preview
 @Composable
 fun DefaultPreview(){
-    Android_exercisesTheme{
+    Android_exercisesTheme {
         TipTimeScreen()
     }
 }
