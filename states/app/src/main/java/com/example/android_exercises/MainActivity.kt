@@ -1,11 +1,9 @@
 package com.example.android_exercises
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -63,7 +61,10 @@ fun TipTimeScreen(){
 
         EditNumberField(
             value = amountInput,
-            onValueChange = { amountInput = it }
+            onValueChange = {
+                println("this happens")
+                amountInput = it
+            }
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -85,7 +86,7 @@ fun EditNumberField(
 
     TextField(
         value = value,
-        onValueChange = { onValueChange },
+        onValueChange = onValueChange,
         label = { Text(text = stringResource(id = R.string.cost_of_service))},
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
