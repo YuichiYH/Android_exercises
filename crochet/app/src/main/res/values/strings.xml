@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Android_exercises</string>
+    <string name="app_name">Calculadora de Pontos</string>
+    <string name="ball_description">Uma bola de crochet</string>
+    <string name="rect_description">Retangulo</string>
+    <string name="sphere">Esfera</string>
+    <string name="sample">Amostra</string>
+
+    <string name="width">Largura</string>
+    <string name="height">Altura</string>
 </resources>
