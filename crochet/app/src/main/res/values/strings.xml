@@ -8,4 +8,6 @@
     <string name="width">Largura</string>
     <string name="height">Altura</string>
     <string name="radius">Raio</string>
+
+    <string name="area">Área</string>
 </resources>

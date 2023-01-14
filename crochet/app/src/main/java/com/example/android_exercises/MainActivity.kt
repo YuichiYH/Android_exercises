@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.sp
 import com.example.android_exercises.ui.theme.Android_exercisesTheme
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.KeyboardType
+import kotlin.math.PI
+import kotlin.math.roundToInt
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +61,11 @@ fun App() {
         mutableStateOf("0")
     }
 
+    val darkMode: Boolean = isSystemInDarkTheme()
+
+    // points per cm squared
+    val scale: Int = (width.toInt() * height.toInt()) / 16
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -77,17 +84,35 @@ fun App() {
         Spacer(modifier = Modifier.height(16.dp))
 
         //Amostra
+        /* TODO: Find a way to fix crash of
+            putting space or - in the keyboard
+            creates invalid character  */
         SamplePick(
-            width,
-            {width = it},
-            height,
-            {height = it},
-            radius,
-            {radius = it}
+            width = width,
+            onWidthValueChange = {
+                width = when(it){
+                    "" -> "0"
+                    else -> it } },
+            height = height,
+            onHeightValueChange = {
+                height = when(it){
+                    "" -> "0"
+                    else -> it } },
+            radius = radius,
+            onRadiusValueChange = {
+                radius = when(it){
+                    "" -> "0"
+                    else -> it } },
+            darkMode = darkMode
         )
+        Spacer(modifier = Modifier.height(16.dp))
 
         //Esfera
-
+        SphereCalc(
+            scale = scale,
+            radius = radius.toInt(),
+            darkMode = darkMode
+        )
     }
 }
 
@@ -97,10 +122,10 @@ fun SamplePick(
     onWidthValueChange: (String) -> Unit,
     height: String,
     onHeightValueChange: (String) -> Unit,
-    radius: String,
-    onRadiusValueChange: (String) -> Unit
+    radius: String, onRadiusValueChange: (String) -> Unit,
+    darkMode: Boolean
 ){
-    val rect = when(isSystemInDarkTheme()){
+    val rect = when(darkMode){
         true -> painterResource(id = R.drawable.rect_darkmode)
         false -> painterResource(id = R.drawable.rect_lightmode)
     }
@@ -160,6 +185,42 @@ fun SamplePick(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             singleLine = true
         )
+    }
+}
+
+@Composable
+fun SphereCalc(
+    scale: Int,
+    radius: Int,
+    darkMode: Boolean
+){
+    val sphere = when(darkMode){
+        true -> painterResource(id = R.drawable.sphere_darkmode)
+        false -> painterResource(id = R.drawable.sphere_lightmode)
+    }
+
+    val area: Int = (PI * 4 * radius * scale).roundToInt()
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = sphere,
+                contentDescription = stringResource(id = R.string.sphere),
+                modifier = Modifier
+                    .size(100.dp)
+            )
+            Text(
+                text = stringResource(id = R.string.area) + ": " + area,
+                modifier = Modifier
+                    .padding(start = 16.dp)
+            )
+        }
     }
 }
 
