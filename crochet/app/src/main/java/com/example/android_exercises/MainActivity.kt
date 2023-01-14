@@ -1,10 +1,10 @@
 package com.example.android_exercises
 
-import android.graphics.drawable.shapes.Shape
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
@@ -19,13 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.android_exercises.ui.theme.Android_exercisesTheme
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.KeyboardType
 
@@ -57,6 +55,10 @@ fun App() {
         mutableStateOf("0")
     }
 
+    var radius by remember {
+        mutableStateOf("0")
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -79,18 +81,13 @@ fun App() {
             width,
             {width = it},
             height,
-            {height = it}
+            {height = it},
+            radius,
+            {radius = it}
         )
 
         //Esfera
-        Row() {
-            Image(
-                painter = painterResource(id = R.drawable.crochet_ball2),
-                contentDescription = stringResource(id = R.string.ball_description),
 
-            )
-
-        }
     }
 }
 
@@ -99,9 +96,18 @@ fun SamplePick(
     width: String,
     onWidthValueChange: (String) -> Unit,
     height: String,
-    onHeightValueChange: (String) -> Unit
+    onHeightValueChange: (String) -> Unit,
+    radius: String,
+    onRadiusValueChange: (String) -> Unit
 ){
-    Column() {
+    val rect = when(isSystemInDarkTheme()){
+        true -> painterResource(id = R.drawable.rect_darkmode)
+        false -> painterResource(id = R.drawable.rect_lightmode)
+    }
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
             text = stringResource(id = R.string.sample),
             modifier = Modifier
@@ -123,7 +129,7 @@ fun SamplePick(
             ) {
                 Text(text = width)
                 Image(
-                    painter = painterResource(id = R.drawable.rect),
+                    painter = rect,
                     contentDescription = stringResource(id = R.string.rect_description),
                     modifier = Modifier.padding(horizontal = 10.dp)
                 )
@@ -132,19 +138,28 @@ fun SamplePick(
         }
         TextField(
             modifier = Modifier.padding(top = 20.dp),
-            label = { stringResource(id = R.string.width)},
+            label = { Text(stringResource(id = R.string.width))},
             value = width,
             onValueChange = onWidthValueChange,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            singleLine = true
         )
         TextField(
             modifier = Modifier.padding(top = 10.dp),
-            label = { stringResource(id = R.string.height)},
+            label = { Text(stringResource(id = R.string.height))},
             value = height,
             onValueChange = onHeightValueChange,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            singleLine = true
         )
-
+        TextField(
+            modifier = Modifier.padding(top = 10.dp),
+            label = { Text(stringResource(id = R.string.radius))},
+            value = radius,
+            onValueChange = onRadiusValueChange,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            singleLine = true
+        )
     }
 }
 
