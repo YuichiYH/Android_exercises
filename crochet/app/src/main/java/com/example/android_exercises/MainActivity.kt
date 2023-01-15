@@ -91,19 +91,21 @@ fun App() {
             putting space or - in the keyboard
             creates invalid character  */
         SamplePick(
-            width = widthSet,
+            widthSet = widthSet,
             onWidthValueChange = {
                     value -> widthSet = value.filter{it.isDigit()}
                                  },
-            height = heightSet,
+            heightSet = heightSet,
             onHeightValueChange = {
                     value -> heightSet = value.filter{it.isDigit()}
                                   },
-            radius = radiusSet,
+            radiusSet = radiusSet,
             onRadiusValueChange = {
                     value -> radiusSet = value.filter{it.isDigit()}
                                   },
-            darkMode = darkMode
+            darkMode = darkMode,
+            width = width,
+            height = height
         )
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -118,12 +120,14 @@ fun App() {
 
 @Composable
 fun SamplePick(
-    width: String,
+    widthSet: String,
     onWidthValueChange: (String) -> Unit,
-    height: String,
+    heightSet: String,
     onHeightValueChange: (String) -> Unit,
-    radius: String, onRadiusValueChange: (String) -> Unit,
-    darkMode: Boolean
+    radiusSet: String, onRadiusValueChange: (String) -> Unit,
+    darkMode: Boolean,
+    width: Int,
+    height: Int
 ){
     val rect = when(darkMode){
         true -> painterResource(id = R.drawable.rect_darkmode)
@@ -152,19 +156,19 @@ fun SamplePick(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = width)
+                Text(text = width.toString())
                 Image(
                     painter = rect,
                     contentDescription = stringResource(id = R.string.rect_description),
                     modifier = Modifier.padding(horizontal = 10.dp)
                 )
             }
-            Text(text = height)
+            Text(text = height.toString())
         }
         TextField(
             modifier = Modifier.padding(top = 20.dp),
             label = { Text(stringResource(id = R.string.width))},
-            value = width,
+            value = widthSet,
             onValueChange = onWidthValueChange,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             singleLine = true
@@ -172,7 +176,7 @@ fun SamplePick(
         TextField(
             modifier = Modifier.padding(top = 10.dp),
             label = { Text(stringResource(id = R.string.height))},
-            value = height,
+            value = heightSet,
             onValueChange = onHeightValueChange,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             singleLine = true
@@ -180,7 +184,7 @@ fun SamplePick(
         TextField(
             modifier = Modifier.padding(top = 10.dp),
             label = { Text(stringResource(id = R.string.radius))},
-            value = radius,
+            value = radiusSet,
             onValueChange = onRadiusValueChange,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             singleLine = true
