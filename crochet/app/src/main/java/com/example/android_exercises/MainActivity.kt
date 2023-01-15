@@ -49,22 +49,25 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun App() {
 
-    var width by remember {
+    var widthSet by remember {
         mutableStateOf("0")
     }
+    val width = widthSet.toIntOrNull() ?: 0
 
-    var height by remember {
+    var heightSet by remember {
         mutableStateOf("0")
     }
+    val height = heightSet.toIntOrNull() ?: 0
 
-    var radius by remember {
+    var radiusSet by remember {
         mutableStateOf("0")
     }
+    val radius = radiusSet.toIntOrNull() ?: 0
 
     val darkMode: Boolean = isSystemInDarkTheme()
 
     // points per cm squared
-    val scale: Int = (width.toInt() * height.toInt()) / 16
+    val scale: Int = (width * height) / 16
 
     Column(
         modifier = Modifier
@@ -88,21 +91,18 @@ fun App() {
             putting space or - in the keyboard
             creates invalid character  */
         SamplePick(
-            width = width,
+            width = widthSet,
             onWidthValueChange = {
-                width = when(it){
-                    "" -> "0"
-                    else -> it } },
-            height = height,
+                    value -> widthSet = value.filter{it.isDigit()}
+                                 },
+            height = heightSet,
             onHeightValueChange = {
-                height = when(it){
-                    "" -> "0"
-                    else -> it } },
-            radius = radius,
+                    value -> heightSet = value.filter{it.isDigit()}
+                                  },
+            radius = radiusSet,
             onRadiusValueChange = {
-                radius = when(it){
-                    "" -> "0"
-                    else -> it } },
+                    value -> radiusSet = value.filter{it.isDigit()}
+                                  },
             darkMode = darkMode
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -110,7 +110,7 @@ fun App() {
         //Esfera
         SphereCalc(
             scale = scale,
-            radius = radius.toInt(),
+            radius = radius,
             darkMode = darkMode
         )
     }
