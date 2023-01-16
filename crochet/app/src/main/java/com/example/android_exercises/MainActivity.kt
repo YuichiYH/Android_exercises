@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.android_exercises.ui.theme.Android_exercisesTheme
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.input.KeyboardType
 import kotlin.math.PI
 import kotlin.math.roundToInt
@@ -87,9 +88,6 @@ fun App() {
         Spacer(modifier = Modifier.height(16.dp))
 
         //Amostra
-        /* TODO: Find a way to fix crash of
-            putting space or - in the keyboard
-            creates invalid character  */
         SamplePick(
             widthSet = widthSet,
             onWidthValueChange = {
@@ -110,13 +108,19 @@ fun App() {
         Spacer(modifier = Modifier.height(16.dp))
 
         //Esfera
-        SphereCalc(
-            scale = scale,
-            radius = radius,
-            darkMode = darkMode
+        ImageCalc(
+            image = when(darkMode){
+                true -> painterResource(id = R.drawable.sphere_darkmode)
+                false -> painterResource(id = R.drawable.sphere_lightmode)
+                                  },
+            area = (PI * 4 * radius * scale).roundToInt()
         )
+
+        //Circulo
     }
 }
+
+
 
 @Composable
 fun SamplePick(
@@ -193,17 +197,10 @@ fun SamplePick(
 }
 
 @Composable
-fun SphereCalc(
-    scale: Int,
-    radius: Int,
-    darkMode: Boolean
+fun ImageCalc(
+    image: Painter,
+    area: Int
 ){
-    val sphere = when(darkMode){
-        true -> painterResource(id = R.drawable.sphere_darkmode)
-        false -> painterResource(id = R.drawable.sphere_lightmode)
-    }
-
-    val area: Int = (PI * 4 * radius * scale).roundToInt()
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -214,7 +211,7 @@ fun SphereCalc(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = sphere,
+                painter = image,
                 contentDescription = stringResource(id = R.string.sphere),
                 modifier = Modifier
                     .size(100.dp)
@@ -227,6 +224,8 @@ fun SphereCalc(
         }
     }
 }
+
+
 
 @Preview
 @Composable
