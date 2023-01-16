@@ -115,8 +115,28 @@ fun App() {
                                   },
             area = (PI * 4 * radius * scale).roundToInt()
         )
+        Spacer(modifier = Modifier.height(16.dp))
 
+    /*
         //Circulo
+        ImageCalc(
+            image = when(darkMode){
+                true -> painterResource(id = R.drawable.circle_darkmode)
+                false -> painterResource(id = R.drawable.circle_lightmode)
+            },
+            area = (PI * 2 * radius * scale).roundToInt()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        //Area Circulo
+        ImageCalc(
+            image = when(darkMode){
+                true -> painterResource(id = R.drawable.circlearea_darkmode)
+                false -> painterResource(id = R.drawable.circlearea_lightmode)
+            },
+            area = (PI * (radius * radius) * scale).roundToInt()
+        )
+        */
     }
 }
 
