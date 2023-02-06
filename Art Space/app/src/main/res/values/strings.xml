@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Android_exercises</string>
+
+    <string name="vangogh">Vangogh</string>
+    <string name="michelangelo">Michelangelo</string>
+    <string name="leonardo">Da Vinci</string>
 </resources>
