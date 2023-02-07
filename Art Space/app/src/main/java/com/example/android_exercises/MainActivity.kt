@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.android_exercises.ui.theme.Android_exercisesTheme
 
 class MainActivity : ComponentActivity() {
@@ -62,14 +63,53 @@ fun ArtWork_App(){
         else -> R.string.leonardo
     }
 
-    ShowArt(image = paintings,
-        description = description
-    )
+    val name = when(state%3) {
+        0 -> R.string.night
+        1 -> R.string.adam
+        else -> R.string.vitruvian
+    }
+
+    Column() {
+        ShowArt(image = paintings,
+            description = description
+        )
+
+        Spacer(modifier = Modifier.padding(top = 10.dp))
+
+        ShowDescription(
+            description = description,
+            name = name
+        )
+        
+        Spacer(modifier = Modifier.padding(top = 10.dp))
+        
+        Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = { state -= 1 }) {
+                Text(text = stringResource(id = R.string.previous))
+            }
+            Spacer(modifier = Modifier.padding(horizontal = 10.dp))
+            Button(onClick = { state += 1 }) {
+                Text(text = stringResource(id = R.string.next))
+            }
+        }
+    }
 }
 
 @Composable
 fun ShowArt(image: Int, description: Int){
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 10.dp)) {
         Image(painter = painterResource(id = image), contentDescription = stringResource(id = description))
     }
+}
+
+@Composable
+fun ShowDescription(description: Int, name: Int){
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+        Text(text = stringResource(id = name))
+        Text(text = stringResource(id = description))
+    }
+
 }

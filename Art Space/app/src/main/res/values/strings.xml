@@ -1,7 +1,14 @@
 <resources>
     <string name="app_name">Android_exercises</string>
 
-    <string name="vangogh">Vangogh</string>
-    <string name="michelangelo">Michelangelo</string>
-    <string name="leonardo">Da Vinci</string>
+    <string name="vangogh">Van Gogh (1889)</string>
+    <string name="michelangelo">Michelangelo (1508–1512)</string>
+    <string name="leonardo">Da Vinci (1490)</string>
+
+    <string name="vitruvian">Vitruvian Man</string>
+    <string name="adam">The Creation of Adam</string>
+    <string name="night">The Starry Night</string>
+    
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 </resources>
