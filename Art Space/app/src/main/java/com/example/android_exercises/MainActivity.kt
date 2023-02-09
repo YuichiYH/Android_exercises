@@ -69,28 +69,44 @@ fun ArtWork_App(){
         else -> R.string.vitruvian
     }
 
-    Column() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
         ShowArt(image = paintings,
             description = description
         )
 
         Spacer(modifier = Modifier.padding(top = 10.dp))
 
-        ShowDescription(
-            description = description,
-            name = name
-        )
-        
-        Spacer(modifier = Modifier.padding(top = 10.dp))
-        
-        Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-            Button(
-                onClick = { state -= 1 }) {
-                Text(text = stringResource(id = R.string.previous))
-            }
-            Spacer(modifier = Modifier.padding(horizontal = 10.dp))
-            Button(onClick = { state += 1 }) {
-                Text(text = stringResource(id = R.string.next))
+
+        Column(
+            verticalArrangement = Arrangement.Bottom,
+            modifier = Modifier
+                .fillMaxHeight()
+        ) {
+
+            ShowDescription(
+                description = description,
+                name = name
+            )
+
+            Spacer(modifier = Modifier.padding(top = 10.dp))
+
+
+            Row(horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.Bottom,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Button(
+                    onClick = { state -= 1 }) {
+                    Text(text = stringResource(id = R.string.previous))
+                }
+                Spacer(modifier = Modifier.padding(horizontal = 10.dp))
+                Button(onClick = { state += 1 }) {
+                    Text(text = stringResource(id = R.string.next))
+                }
             }
         }
     }
@@ -100,14 +116,16 @@ fun ArtWork_App(){
 fun ShowArt(image: Int, description: Int){
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 10.dp)) {
+        .padding(10.dp)) {
         Image(painter = painterResource(id = image), contentDescription = stringResource(id = description))
     }
 }
 
 @Composable
 fun ShowDescription(description: Int, name: Int){
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Bottom,
+        modifier = Modifier.fillMaxWidth()) {
         Text(text = stringResource(id = name))
         Text(text = stringResource(id = description))
     }
